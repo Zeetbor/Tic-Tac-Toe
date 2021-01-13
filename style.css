@@ -1,0 +1,35 @@
+div {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.board {
+  width: 639px;
+  height: 639px;
+}
+
+.buttons {
+  position: relative;
+}
+
+div div {
+  width: 210px;
+  height: 210px;
+  border: black solid 1px;
+  float: left;
+  /* text-align: center;
+  vertical-align: middle;
+  line-height: 210px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 75px;
+}
+
+.square:nth-of-type(2n-1){
+  border:
+}
+
+div div:hover{
+  background-color: lightgrey;
+}
