@@ -29,7 +29,11 @@ div {
 }
 
 .message {
-  
+
+}
+
+.reset{
+  display: inherit;
 }
 
 div div {
