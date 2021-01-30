@@ -7,6 +7,12 @@ let board = ["", "", "", "", "", "", "", "", ""];
 let turn = "player1";
 const squares = Array.from(document.querySelectorAll('.square'));
 const message = document.querySelector('h2');
+const x = document.querySelector('#X');
+const o = document.querySelector('#O');
+let playerMarker = "";
+let computerMarker = "";
+//let player1Name = prompt("Please enter player 1's name:", "Player 1")
+
 // const squares = document.querySelectorAll(".square")
 
 //Game Logic
@@ -40,16 +46,36 @@ function checkWin() {
   }
 };
 
-
 //Game Board
-let counter = 0
+let counter = 0;
 
-function addListeners(){
+function addListeners() {
   for (const square of squares) {
-  square.addEventListener('click', marker)
-}
+    square.addEventListener('click', marker)
+  }
 }
 addListeners();
+
+function setMarker() {
+  if (this.textContent = "X") {
+    playerMarker = "X";
+    computerMarker = "O"
+  }
+  playerMarker = "O", computerMarker = "X";
+}
+
+x.addEventListener('click', setMarker())
+o.addEventListener('click', setMarker())
+
+function computerPlay() {
+  if (counter % 2 == 0 && computerMarker == "X") {
+    let random = Math.floor((Math.random()*9));
+    if (board[random] == ""){
+      board[random] = "X";
+      counter++;
+    } else computerPlay();
+  }
+}
 
 function marker(e) {
   let id = squares.findIndex(function(square) {
@@ -59,15 +85,17 @@ function marker(e) {
   if (this.innerHTML != "") {
     return
   } else if (turn == "player1") {
-    this.innerHTML = "X";
+    // this.innerHTML = "X";
     board[id] = "X";
+    this.innerHTML = board[id];
     message.innerHTML = "Player 2's turn:"
     counter++;
     checkWin();
     return turn = "player2"
   } else {
-    this.innerHTML = "O";
+    // this.innerHTML = "O";
     board[id] = "O";
+    this.innerHTML = board[id];
     message.innerHTML = "Player 1's turn:"
     counter++;
     checkWin();
