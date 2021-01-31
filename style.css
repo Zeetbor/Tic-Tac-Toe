@@ -3,27 +3,32 @@ div {
   margin-right: auto;
 }
 
+input {
+  width: 8em;
+}
+
 .board {
   width: 639px;
   height: 639px;
   background-color: rgb(226, 239, 255);
 }
 
-.buttons {
+.playerNames {
+  width: 639px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+  margin-top: 1em;
 }
 
-.message {
-
-}
+.message {}
 
 .choose {
+  width: 639px;
   display: flex;
-  /* align-items: center; */
+  align-items: center;
   justify-content: space-evenly;
-  margin: 1em;
+  margin-bottom: 1em;
 }
 
 .chooseBtn {
@@ -32,7 +37,7 @@ div {
   border-radius: 25%/50%;
 }
 
-.reset{
+.reset {
   width: 6em;
   height: 2em;
   border-radius: 25%/50%;
@@ -43,9 +48,6 @@ div div {
   height: 210px;
   border: black solid 1px;
   float: left;
-  /* text-align: center;
-  vertical-align: middle;
-  line-height: 210px; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,7 +66,6 @@ header {
 #message h2 {}
 
 .square:nth-of-type(2n-1) {
-  border:
 }
 
 div div:hover {

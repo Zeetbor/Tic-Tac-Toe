@@ -1,19 +1,32 @@
 //one of something = Module - two of something == factory
-//const gameBoard = () => {
-
-// };
 
 let board = ["", "", "", "", "", "", "", "", ""];
-let turn = "player1";
 const squares = Array.from(document.querySelectorAll('.square'));
 const message = document.querySelector('h2');
 const x = document.querySelector('#X');
 const o = document.querySelector('#O');
 let playerMarker = "";
 let computerMarker = "";
-//let player1Name = prompt("Please enter player 1's name:", "Player 1")
+let counter = 0;
+let winner = null;
 
-// const squares = document.querySelectorAll(".square")
+let player1 = "Player 1"
+let player2 = "Player 2"
+
+const p1Name = document.querySelector("#p1Name");
+const p2Name = document.querySelector("#p2Name");
+
+p1Name.addEventListener('input', function(e) {
+  if (p1Name != "") {
+    player1 = p1Name.value;
+  } else player1 = "Player 1"
+})
+
+p2Name.addEventListener('input', function(e) {
+  if (p2Name != "") {
+    player2 = p2Name.value;
+  } else player2 = "Player 2"
+})
 
 //Game Logic
 
@@ -28,8 +41,6 @@ function checkWin() {
     [3, 4, 5],
     [6, 7, 8]
   ]
-
-  let winner = null;
 
   winningCombos.forEach(function(combo, index) {
     if (board[combo[0]] && board[combo[0]] === board[combo[1]] && board[combo[0]] === board[combo[2]])
@@ -47,34 +58,51 @@ function checkWin() {
 };
 
 //Game Board
-let counter = 0;
 
 function addListeners() {
   for (const square of squares) {
     square.addEventListener('click', marker)
   }
 }
-addListeners();
 
-function setMarker() {
-  if (this.textContent = "X") {
-    playerMarker = "X";
-    computerMarker = "O"
-  }
-  playerMarker = "O", computerMarker = "X";
+x.addEventListener('click', () => {
+  hideBtns();
+  playerMarker = "X";
+  computerMarker = "O";
+  message.innerHTML = `${player1}'s turn:`;
+  addListeners();
+})
+
+o.addEventListener('click', () => {
+  hideBtns();
+  playerMarker = "O";
+  computerMarker = "X";
+  addListeners();
+  computerPlay();
+});
+
+function hideBtns(){
+  o.style.display = "none";
+  x.style.display = "none";
 }
 
-x.addEventListener('click', setMarker())
-o.addEventListener('click', setMarker())
-
 function computerPlay() {
-  if (counter % 2 == 0 && computerMarker == "X") {
-    let random = Math.floor((Math.random()*9));
-    if (board[random] == ""){
+  let random = Math.floor((Math.random() * 9));
+  if (board[random] == "") {
+    if (counter % 2 == 0 && computerMarker == "X") {
       board[random] = "X";
-      counter++;
-    } else computerPlay();
-  }
+      squares[random].innerHTML = "X";
+      updateTurn();
+      checkWin();
+    } else if (counter % 2 == 1 && computerMarker == "O") {
+      if (board[random] == "") {
+        board[random] = "O";
+        squares[random].innerHTML = "O";
+        updateTurn();
+        checkWin();
+      }
+    }
+  } else if (counter < 9) computerPlay();
 }
 
 function marker(e) {
@@ -84,24 +112,30 @@ function marker(e) {
 
   if (this.innerHTML != "") {
     return
-  } else if (turn == "player1") {
-    // this.innerHTML = "X";
+  } else if (counter % 2 == 0) {
     board[id] = "X";
     this.innerHTML = board[id];
-    message.innerHTML = "Player 2's turn:"
-    counter++;
+    updateTurn();
     checkWin();
-    return turn = "player2"
+    if (winner == null) setTimeout(computerPlay, 250)
   } else {
-    // this.innerHTML = "O";
     board[id] = "O";
     this.innerHTML = board[id];
-    message.innerHTML = "Player 1's turn:"
-    counter++;
+    updateTurn();
     checkWin();
-    return turn = "player1";
+    if (winner == null) setTimeout(computerPlay, 250)
   }
 };
+
+function updateTurn() {
+  if (counter % 2 == 0) {
+    message.innerHTML = `${player2}'s turn:`;
+    counter++;
+  } else {
+    message.innerHTML = `${player1}'s turn:`;
+    counter++;
+  }
+}
 
 const resetButton = document.querySelector(".reset")
 resetButton.addEventListener('click', function(e) {
@@ -109,7 +143,13 @@ resetButton.addEventListener('click', function(e) {
     squares[i].innerHTML = "";
   };
   counter = 0;
-  message.innerHTML = "Player 1's turn:"
-  addListeners();
+  message.innerHTML = "Pick a side"
+  winner = null;
+  if(p1Name & p2Name != ""){
+    player1 = p1Name.value;
+    player2 = p2Name.value;
+  }
+  o.style.display = "block";
+  x.style.display = "block";
   return board = ["", "", "", "", "", "", "", "", ""]
 });
